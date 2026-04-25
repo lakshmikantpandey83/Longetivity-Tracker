@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Longevity AI Tracker (Gemini)</title>
+<title>Longevity AI Blueprint (Gemini)</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2D6A4F">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -32,42 +32,43 @@ nav::-webkit-scrollbar { display: none; }
 .page.active { display: block; }
 
 /* ONBOARDING */
-#onboarding-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+#onboarding-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; overflow-y: auto; padding: 20px 10px; }
 .setup-card { background: var(--surface); padding: 2rem; border-radius: var(--radius); max-width: 500px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
 /* CARDS & TYPOGRAPHY */
 .page-title { font-family: var(--serif); font-size: 28px; line-height: 1.2; margin-bottom: 0.25rem; }
-.page-sub { font-size: 14px; color: var(--text3); margin-bottom: 1.5rem; }
+.page-sub { font-size: 13px; color: var(--text3); margin-bottom: 1.5rem; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
-.card-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
+.card-title { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
 
 /* GRID & METRICS */
 .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1rem; }
-.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
-.metric-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; }
-.metric-value { font-size: 22px; font-weight: 300; }
-.metric-unit { font-size: 12px; color: var(--text2); }
+.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.8rem 1rem; }
+.metric-label { font-size: 10px; color: var(--text3); margin-bottom: 2px; text-transform: uppercase; }
+.metric-value { font-size: 20px; font-weight: 400; color: var(--text); }
+.metric-unit { font-size: 11px; color: var(--text2); }
 
 /* FORMS */
-.form-group { margin-bottom: 1.25rem; }
-.input-label { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; display: block; }
-.body-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 15px; background: var(--bg); }
-.btn { padding: 12px 24px; border-radius: var(--radius-sm); border: 1px solid var(--border2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: 0.2s; }
+.form-group { margin-bottom: 1rem; }
+.input-label { font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 4px; display: block; }
+.body-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 14px; background: var(--bg); }
+.btn { padding: 12px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: 0.2s; }
 .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); width: 100%; }
 .btn-primary:disabled { opacity: 0.5; }
 
-/* TRACKER */
-.habit-row { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-.chk { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border2); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.chk.done { background: var(--accent); border-color: var(--accent); }
-
-/* MEALS & EXERCISES */
+/* ITEMS */
 .item-block { border-left: 3px solid var(--accent); padding: 10px 15px; background: var(--surface); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 10px; border: 1px solid var(--border); border-left-width: 3px; }
-.item-time { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 4px; }
-.item-name { font-size: 15px; font-weight: 500; }
+.item-time { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 2px; }
+.item-name { font-size: 14px; font-weight: 500; }
+.item-detail { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+/* HABIT */
+.habit-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.chk { width: 24px; height: 24px; border-radius: 5px; border: 1px solid var(--border2); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+.chk.done { background: var(--accent); border-color: var(--accent); color: white; }
 
 /* UTILS */
-#ai-loading { display: none; text-align: center; margin-top: 1rem; color: var(--text3); font-size: 13px; }
+#ai-loading { display: none; text-align: center; margin-top: 1rem; color: var(--text3); font-size: 12px; }
 @media (max-width: 600px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
@@ -75,20 +76,43 @@ nav::-webkit-scrollbar { display: none; }
 
 <div id="onboarding-overlay" style="display: none;">
   <div class="setup-card">
-    <h1 style="font-family: var(--serif); font-size: 28px;">Longevity AI</h1>
-    <p style="font-size: 14px; color: var(--text3); margin-bottom: 1.5rem;">Create your personalized longevity blueprint using Gemini AI (Free).</p>
-    <div class="form-group"><input type="number" id="setup-age" class="body-input" placeholder="Age (e.g. 43)"></div>
+    <h1 style="font-family: var(--serif); font-size: 26px;">Create Your Plan</h1>
+    <p style="font-size: 13px; color: var(--text3); margin-bottom: 1.2rem;">Generate a personalized blueprint with Gemini AI.</p>
+
+    <div style="display: flex; gap: 8px;">
+        <div class="form-group" style="flex:1"><label class="input-label">Age</label><input type="number" id="setup-age" class="body-input" placeholder="43"></div>
+        <div class="form-group" style="flex:1"><label class="input-label">Gender</label><select id="setup-gender" class="body-input"><option value="Male">Male</option><option value="Female">Female</option></select></div>
+    </div>
+
+    <div style="display: flex; gap: 8px;">
+        <div class="form-group" style="flex:1"><label class="input-label">Weight (kg)</label><input type="number" id="setup-weight" class="body-input" placeholder="65"></div>
+        <div class="form-group" style="flex:1"><label class="input-label">Height (cm)</label><input type="number" id="setup-height" class="body-input" placeholder="170"></div>
+    </div>
+
+    <div class="form-group"><label class="input-label">Waist (cm)</label><input type="number" id="setup-waist" class="body-input" placeholder="92"></div>
+
     <div class="form-group">
+        <label class="input-label">Dietary Preference</label>
         <select id="setup-diet" class="body-input">
-            <option value="Indian Vegetarian">Indian Vegetarian</option>
+            <option value="Indian Vegetarian (No Eggs)">Indian Vegetarian</option>
+            <option value="Vegetarian (With Eggs)">Vegetarian + Eggs</option>
             <option value="Vegan">Vegan</option>
             <option value="Non-Vegetarian">Non-Vegetarian</option>
         </select>
     </div>
-    <div class="form-group"><input type="number" id="setup-weight" class="body-input" placeholder="Weight (kg)"></div>
-    <button class="btn btn-primary" id="btn-gen" onclick="generateAIPlan()">Generate Plan (Free)</button>
-    <div id="ai-loading">✨ Gemini is building your plan... (approx 15s)</div>
-    <p style="font-size: 11px; text-align: center; margin-top: 15px; color: var(--text3);">Requires Gemini API Key in Settings</p>
+
+    <div class="form-group">
+        <label class="input-label">Equipment</label>
+        <select id="setup-equip" class="body-input">
+            <option value="Home (Bodyweight)">Home only</option>
+            <option value="Minimal (Bands/Dumbbells)">Minimal</option>
+            <option value="Full Gym">Full Gym</option>
+        </select>
+    </div>
+
+    <button class="btn btn-primary" id="btn-gen" onclick="generateAIPlan()">Generate My Blueprint</button>
+    <div id="ai-loading">✨ Gemini AI is building your plan... (~20s)</div>
+    <p style="font-size: 10px; text-align: center; margin-top: 10px; color: var(--text3);">Requires Gemini API Key in Settings tab</p>
   </div>
 </div>
 
@@ -105,9 +129,15 @@ nav::-webkit-scrollbar { display: none; }
   <div class="page-title">Blueprint</div>
   <div class="page-sub" id="user-info"></div>
   <div class="grid-4" id="dash-metrics"></div>
+
   <div class="card">
-    <div class="card-title">Weekly Goals</div>
-    <div id="daily-focus"></div>
+    <div class="card-title">Daily Schedule</div>
+    <div id="daily-schedule"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Timeline to Goal</div>
+    <div id="dash-timeline"></div>
   </div>
 </div>
 
@@ -122,34 +152,31 @@ nav::-webkit-scrollbar { display: none; }
 </div>
 
 <div class="page" id="page-tracker">
-  <div class="page-title">Daily Habits</div>
+  <div class="page-title">Habit Tracker</div>
   <div class="card" id="habit-list"></div>
 </div>
 
 <div class="page" id="page-settings">
-  <div class="page-title">Settings</div>
+  <div class="page-title">App Settings</div>
   <div class="card">
-    <div class="card-title">Gemini AI Engine</div>
+    <div class="card-title">Gemini API Configuration</div>
     <div class="form-group">
-      <label class="input-label">Gemini API Key (Free Tier)</label>
-      <input type="password" id="api-key" class="body-input" placeholder="Paste your key from AI Studio...">
-      <p style="font-size: 11px; margin-top: 5px; color: var(--text3);">Get one for free at aistudio.google.com</p>
+      <label class="input-label">API Key (Get free at aistudio.google.com)</label>
+      <input type="password" id="api-key" class="body-input" placeholder="Paste Gemini API Key here...">
     </div>
-    <button class="btn btn-primary" onclick="saveSettings()">Save Gemini Key</button>
+    <button class="btn btn-primary" onclick="saveSettings()">Save Configuration</button>
   </div>
   <div class="card" style="border-color: var(--red);">
-    <div class="card-title" style="color:var(--red)">System</div>
-    <button class="btn" style="color:var(--red); border-color:var(--red); width: 100%;" onclick="resetApp()">Wipe All Data</button>
+    <div class="card-title" style="color:var(--red)">Account</div>
+    <button class="btn" style="color:var(--red); border-color:var(--red); width: 100%;" onclick="resetApp()">Reset All Data</button>
   </div>
 </div>
 
 <script>
-// --- DATA MODELS ---
 let plan = JSON.parse(localStorage.getItem('lp_plan'));
 let settings = JSON.parse(localStorage.getItem('lp_settings') || '{"apiKey":""}');
 let habitLogs = JSON.parse(localStorage.getItem('lp_habit_logs') || '{}');
 
-// --- NAVIGATION ---
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -160,36 +187,42 @@ function showPage(id) {
 function saveSettings() {
   settings.apiKey = document.getElementById('api-key').value;
   localStorage.setItem('lp_settings', JSON.stringify(settings));
-  alert('Gemini Key saved!');
+  alert('Gemini settings updated!');
 }
 
 function resetApp() {
-  if(confirm('Delete all data and start over?')) { localStorage.clear(); location.reload(); }
+  if(confirm('Wipe all data and generated plan?')) { localStorage.clear(); location.reload(); }
 }
 
-// --- AI LOGIC (GEMINI) ---
 async function generateAIPlan() {
-  if(!settings.apiKey) { alert('Enter your Gemini API key in Settings first!'); showPage('settings'); document.getElementById('onboarding-overlay').style.display='none'; return; }
+  if(!settings.apiKey) { alert('Go to Settings tab and add Gemini API key first!'); showPage('settings'); document.getElementById('onboarding-overlay').style.display='none'; return; }
 
   const btn = document.getElementById('btn-gen');
   const loader = document.getElementById('ai-loading');
   btn.disabled = true; loader.style.display = 'block';
 
-  const userInputs = {
+  const inputs = {
     age: document.getElementById('setup-age').value,
+    gender: document.getElementById('setup-gender').value,
+    weight: document.getElementById('setup-weight').value,
+    height: document.getElementById('setup-height').value,
+    waist: document.getElementById('setup-waist').value,
     diet: document.getElementById('setup-diet').value,
-    weight: document.getElementById('setup-weight').value
+    equip: document.getElementById('setup-equip').value
   };
 
-  const systemPrompt = `You are a longevity expert. Create a health plan for a ${userInputs.age} year old on a ${userInputs.diet} diet weighing ${userInputs.weight}kg.
-  Return ONLY a valid JSON object with this exact structure:
+  const systemPrompt = `You are an expert longevity coach. Based on the user inputs: ${JSON.stringify(inputs)}, generate a high-quality science-based health plan.
+  The output MUST be a VALID JSON object with this exact structure:
   {
-    "user": {"age":${userInputs.age}, "weight":${userInputs.weight}, "diet":"${userInputs.diet}"},
-    "metrics": [{"label":"Goal Weight", "value":"62", "unit":"kg"}],
-    "habits": ["Drink 3L water", "10k steps"],
-    "training": [{"day":"Monday", "activity":"Strength", "exercises":["Pushups 3x10"]}],
-    "nutrition": [{"time":"Breakfast", "meal":"Oats"}]
-  }`;
+    "user_summary": "43y · Male · 65kg · Indian Vegetarian",
+    "metrics": [{"label":"Body Fat %", "value":"22", "unit":"%"}, {"label":"Calories", "value":"1800", "unit":"kcal"}, {"label":"Protein", "value":"125", "unit":"g"}],
+    "schedule": [{"time":"5:30 AM", "activity":"Wake up + water"}, {"time":"6:00 AM", "activity":"Yoga"}],
+    "timeline": [{"label":"Waist ≤ 90cm", "time":"12 weeks"}],
+    "training": [{"day":"Mon", "focus":"Push", "exercises":["Pushups 3x12"]}],
+    "nutrition": [{"time":"Breakfast", "meal":"Oats", "detail":"30g protein"}],
+    "habits": ["Drink 3L water", "10k steps"]
+  }
+  IMPORTANT: Return ONLY the JSON object. No other text.`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${settings.apiKey}`;
 
@@ -197,27 +230,20 @@ async function generateAIPlan() {
     const res = await fetch(url, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: systemPrompt }] }]
-      })
+      body: JSON.stringify({ contents: [{ parts: [{ text: systemPrompt }] }] })
     });
 
     const data = await res.json();
-    const aiResponseText = data.candidates[0].content.parts[0].text;
-
-    // Clean JSON from Markdown blocks
-    const cleanJson = aiResponseText.replace(/```json|```/g, '').trim();
-    plan = JSON.parse(cleanJson);
-
+    const aiText = data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim();
+    plan = JSON.parse(aiText);
     localStorage.setItem('lp_plan', JSON.stringify(plan));
     location.reload();
   } catch (e) {
-    alert('Gemini API Error: ' + e.message + '. Ensure your key is valid and you have internet.');
+    alert('AI Error: ' + e.message);
     btn.disabled = false; loader.style.display = 'none';
   }
 }
 
-// --- UI INIT ---
 function init() {
   if(!plan) {
     document.getElementById('onboarding-overlay').style.display = 'flex';
@@ -226,20 +252,31 @@ function init() {
   }
 
   // Dash
-  document.getElementById('user-info').textContent = `${plan.user.age}y · ${plan.user.diet} · ${plan.user.weight}kg`;
+  document.getElementById('user-info').textContent = plan.user_summary;
   document.getElementById('dash-metrics').innerHTML = plan.metrics.map(m => `
     <div class="metric-card">
       <div class="metric-label">${m.label}</div>
       <div class="metric-value">${m.value} <span class="metric-unit">${m.unit}</span></div>
     </div>`).join('');
 
+  document.getElementById('daily-schedule').innerHTML = plan.schedule.map(s => `
+    <div style="display:flex; font-size:13px; margin-bottom:6px;">
+        <span style="font-weight:600; min-width:70px; color:var(--text3);">${s.time}</span>
+        <span style="color:var(--text2);">${s.activity}</span>
+    </div>`).join('');
+
+  document.getElementById('dash-timeline').innerHTML = plan.timeline.map(t => `
+    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px;">
+        <span style="color:var(--text2);">${t.label}</span>
+        <span style="font-weight:600; color:var(--accent);">${t.time}</span>
+    </div>`).join('');
+
   // Habits
   const today = new Date().toISOString().split('T')[0];
   if(!habitLogs[today]) habitLogs[today] = {};
-
   document.getElementById('habit-list').innerHTML = plan.habits.map(h => `
     <div class="habit-row">
-      <div style="flex:1">${h}</div>
+      <div style="flex:1; font-size:14px;">${h}</div>
       <div class="chk ${habitLogs[today][h] ? 'done' : ''}" onclick="toggleHabit('${h}')">
         ${habitLogs[today][h] ? '✓' : ''}
       </div>
@@ -248,9 +285,8 @@ function init() {
   // Training
   document.getElementById('training-content').innerHTML = plan.training.map(t => `
     <div class="card">
-        <div class="card-title">${t.day}</div>
-        <div style="font-weight:600; color:var(--accent);">${t.activity}</div>
-        <ul style="margin-top:10px; font-size:13px; color:var(--text2); padding-left:15px;">
+        <div class="card-title">${t.day} — ${t.focus}</div>
+        <ul style="margin-top:5px; font-size:13px; color:var(--text2); padding-left:15px;">
             ${t.exercises.map(ex => `<li>${ex}</li>`).join('')}
         </ul>
     </div>`).join('');
@@ -260,6 +296,7 @@ function init() {
     <div class="item-block">
         <div class="item-time">${n.time}</div>
         <div class="item-name">${n.meal}</div>
+        <div class="item-detail">${n.detail}</div>
     </div>`).join('');
 }
 
