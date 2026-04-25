@@ -35,30 +35,16 @@ nav::-webkit-scrollbar { display: none; }
 #onboarding-overlay { position: fixed; inset: 0; top: 52px; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; overflow-y: auto; padding: 20px 10px; }
 .setup-card { background: var(--surface); padding: 2rem; border-radius: var(--radius); max-width: 500px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
-/* CARDS & TYPOGRAPHY */
-.page-title { font-family: var(--serif); font-size: 28px; line-height: 1.2; margin-bottom: 0.25rem; }
-.page-sub { font-size: 13px; color: var(--text3); margin-bottom: 1.5rem; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
-.card-title { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
-
-/* GRID & METRICS */
+/* METRICS */
 .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1rem; }
 .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.8rem 1rem; }
 .metric-label { font-size: 10px; color: var(--text3); margin-bottom: 2px; text-transform: uppercase; }
 .metric-value { font-size: 20px; font-weight: 400; color: var(--text); }
 .metric-unit { font-size: 11px; color: var(--text2); }
 
-/* FORMS */
-.form-group { margin-bottom: 1rem; }
-.input-label { font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 4px; display: block; }
-.body-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 14px; background: var(--bg); }
-.btn { padding: 12px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: 0.2s; }
-.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); width: 100%; }
-
-/* TRACKER */
-.habit-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.chk { width: 24px; height: 24px; border-radius: 5px; border: 1px solid var(--border2); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
-.chk.done { background: var(--accent); border-color: var(--accent); color: white; }
+/* CARDS */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+.card-title { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
 
 /* ITEMS */
 .item-block { border-left: 3px solid var(--accent); padding: 10px 15px; background: var(--surface); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 10px; border: 1px solid var(--border); border-left-width: 3px; }
@@ -66,7 +52,15 @@ nav::-webkit-scrollbar { display: none; }
 .item-name { font-size: 14px; font-weight: 500; }
 .item-detail { font-size: 12px; color: var(--text2); margin-top: 2px; }
 
+/* HABIT */
+.habit-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.chk { width: 24px; height: 24px; border-radius: 5px; border: 1px solid var(--border2); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chk.done { background: var(--accent); border-color: var(--accent); color: white; }
+
 /* UTILS */
+.body-input { width: 100%; padding: 10px 12px; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 14px; background: var(--bg); margin-bottom: 10px; }
+.btn { padding: 12px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: 0.2s; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); width: 100%; }
 #ai-loading { display: none; text-align: center; margin-top: 1rem; color: var(--text3); font-size: 12px; }
 @media (max-width: 600px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
 </style>
@@ -85,34 +79,17 @@ nav::-webkit-scrollbar { display: none; }
 <div id="onboarding-overlay" style="display: none;">
   <div class="setup-card">
     <h1 style="font-family: var(--serif); font-size: 26px;">Create Your Plan</h1>
-    <p style="font-size: 13px; color: var(--text3); margin-bottom: 1.2rem;">Generate a personalized blueprint with Gemini AI.</p>
-
-    <div style="display: flex; gap: 8px;">
-        <div class="form-group" style="flex:1"><label class="input-label">Age</label><input type="number" id="setup-age" class="body-input" placeholder="43"></div>
-        <div class="form-group" style="flex:1"><label class="input-label">Gender</label><select id="setup-gender" class="body-input"><option value="Male">Male</option><option value="Female">Female</option></select></div>
-    </div>
-
-    <div style="display: flex; gap: 8px;">
-        <div class="form-group" style="flex:1"><label class="input-label">Weight (kg)</label><input type="number" id="setup-weight" class="body-input" placeholder="65"></div>
-        <div class="form-group" style="flex:1"><label class="input-label">Height (cm)</label><input type="number" id="setup-height" class="body-input" placeholder="170"></div>
-    </div>
-
-    <div class="form-group"><label class="input-label">Waist (cm)</label><input type="number" id="setup-waist" class="body-input" placeholder="92"></div>
-
-    <div class="form-group">
-        <label class="input-label">Dietary Preference</label>
-        <select id="setup-diet" class="body-input">
-            <option value="Indian Vegetarian">Indian Vegetarian</option>
-            <option value="Vegetarian + Eggs">Vegetarian + Eggs</option>
-            <option value="Vegan">Vegan</option>
-            <option value="Non-Vegetarian">Non-Vegetarian</option>
-        </select>
-    </div>
-
+    <p style="font-size: 13px; color: var(--text3); margin-bottom: 1.2rem;">Generate a blueprint with Gemini AI.</p>
+    <input type="number" id="setup-age" class="body-input" placeholder="Age">
+    <select id="setup-diet" class="body-input">
+        <option value="Indian Vegetarian">Indian Vegetarian</option>
+        <option value="Vegan">Vegan</option>
+        <option value="Non-Vegetarian">Non-Vegetarian</option>
+    </select>
+    <input type="number" id="setup-weight" class="body-input" placeholder="Weight (kg)">
     <button class="btn btn-primary" id="btn-gen" onclick="generateAIPlan()">Generate My Blueprint</button>
-    <div id="ai-loading">✨ Gemini AI is building your plan... (~20s)</div>
-
-    <button class="btn" style="margin-top: 15px; width: 100%; font-size: 12px;" onclick="showPage('settings')">Add API Key in Settings</button>
+    <div id="ai-loading">✨ AI is building your plan... (~15s)</div>
+    <button class="btn" style="margin-top: 15px; width: 100%; font-size: 11px;" onclick="showPage('settings')">Add API Key in Settings</button>
   </div>
 </div>
 
@@ -120,8 +97,7 @@ nav::-webkit-scrollbar { display: none; }
   <div class="page-title">Blueprint</div>
   <div class="page-sub" id="user-info"></div>
   <div class="grid-4" id="dash-metrics"></div>
-  <div class="card"><div class="card-title">Schedule</div><div id="daily-schedule"></div></div>
-  <div class="card"><div class="card-title">Timeline</div><div id="dash-timeline"></div></div>
+  <div class="card"><div class="card-title">Daily Schedule</div><div id="daily-schedule"></div></div>
 </div>
 
 <div class="page" id="page-training"><div class="page-title">Training</div><div id="training-content"></div></div>
@@ -131,13 +107,11 @@ nav::-webkit-scrollbar { display: none; }
 <div class="page" id="page-settings">
   <div class="page-title">Settings</div>
   <div class="card">
-    <div class="card-title">Gemini API Configuration</div>
+    <div class="card-title">Gemini API Key</div>
     <input type="password" id="api-key" class="body-input" placeholder="Paste Gemini Key here...">
-    <button class="btn btn-primary" style="margin-top: 10px;" onclick="saveSettings()">Save Configuration</button>
+    <button class="btn btn-primary" onclick="saveSettings()">Save Configuration</button>
   </div>
-  <div class="card" style="border-color: var(--red);">
-    <button class="btn" style="color:var(--red); border-color:var(--red); width: 100%;" onclick="resetApp()">Reset All Data</button>
-  </div>
+  <button class="btn" style="color:var(--red); border-color:var(--red); width: 100%;" onclick="resetApp()">Reset All Data</button>
 </div>
 
 <script>
@@ -149,48 +123,45 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
-
-  if (id === 'settings') {
-      document.getElementById('onboarding-overlay').style.display = 'none';
-  } else if (!plan) {
-      document.getElementById('onboarding-overlay').style.display = 'flex';
-  }
-
+  if (id === 'settings') document.getElementById('onboarding-overlay').style.display = 'none';
+  else if (!plan) document.getElementById('onboarding-overlay').style.display = 'flex';
   const links = document.querySelectorAll('.nav-link');
-  links.forEach(link => {
-      if (link.getAttribute('onclick').includes(`'${id}'`)) {
-          link.classList.add('active');
-      }
-  });
+  links.forEach(link => { if (link.getAttribute('onclick').includes(`'${id}'`)) link.classList.add('active'); });
 }
 
 function saveSettings() {
-  const key = document.getElementById('api-key').value.trim();
-  settings.apiKey = key;
+  settings.apiKey = document.getElementById('api-key').value.trim();
   localStorage.setItem('lp_settings', JSON.stringify(settings));
-  alert('Gemini settings updated!');
+  alert('Settings saved!');
 }
 
 function resetApp() { if(confirm('Wipe everything?')) { localStorage.clear(); location.reload(); } }
 
 async function generateAIPlan() {
-  if(!settings.apiKey) return alert('Add API key in Settings tab first!');
+  if(!settings.apiKey) return alert('Add API key in Settings first!');
   const btn = document.getElementById('btn-gen');
   btn.disabled = true; document.getElementById('ai-loading').style.display = 'block';
 
   const inputs = {
     age: document.getElementById('setup-age').value,
     diet: document.getElementById('setup-diet').value,
-    weight: document.getElementById('setup-weight').value,
-    gender: document.getElementById('setup-gender').value,
-    height: document.getElementById('setup-height').value,
-    waist: document.getElementById('setup-waist').value
+    weight: document.getElementById('setup-weight').value
   };
 
-  const systemPrompt = `You are a longevity expert. Based on user data: ${JSON.stringify(inputs)}, create a health plan. Return ONLY valid JSON with this structure: { "user_summary": "Summary string", "metrics": [{"label":"Goal Weight", "value":"62", "unit":"kg"}], "schedule": [{"time":"5:30 AM", "activity":"Wake up"}], "timeline": [{"label":"Goal", "time":"12w"}], "training": [{"day":"Mon", "focus":"Push", "exercises":["Pushups"]}], "nutrition": [{"time":"Breakfast", "meal":"Oats", "detail":"30g protein"}], "habits": ["Drink 3L water"] }`;
+  const systemPrompt = `Return ONLY a valid JSON object: {
+    "user_summary": "Summary",
+    "metrics": [{"label":"Goal", "value":"60", "unit":"kg"}],
+    "schedule": [{"time":"6AM", "activity":"Yoga"}],
+    "training": [{"day":"Mon", "focus":"Push", "exercises":["Pushups"]}],
+    "nutrition": [{"time":"Breakfast", "meal":"Oats", "detail":""}],
+    "habits": ["Drink 3L water"]
+  }. Data: ${JSON.stringify(inputs)}`;
+
+  // FIX: Using the stable v1 endpoint and ensuring the correct model name
+  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${settings.apiKey}`;
 
   try {
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${settings.apiKey}`, {
+    const res = await fetch(url, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ contents: [{ parts: [{ text: systemPrompt }] }] })
@@ -211,15 +182,10 @@ async function generateAIPlan() {
 }
 
 function init() {
-  if(!plan) {
-    document.getElementById('onboarding-overlay').style.display = 'flex';
-    document.getElementById('api-key').value = settings.apiKey;
-    return;
-  }
+  if(!plan) { document.getElementById('onboarding-overlay').style.display = 'flex'; return; }
   document.getElementById('user-info').textContent = plan.user_summary;
   document.getElementById('dash-metrics').innerHTML = (plan.metrics || []).map(m => `<div class="metric-card"><div class="metric-label">${m.label}</div><div class="metric-value">${m.value} <span class="metric-unit">${m.unit}</span></div></div>`).join('');
   document.getElementById('daily-schedule').innerHTML = (plan.schedule || []).map(s => `<div style="display:flex; font-size:13px; margin-bottom:6px;"><span style="font-weight:600; min-width:70px; color:var(--text3);">${s.time}</span><span style="color:var(--text2);">${s.activity}</span></div>`).join('');
-  document.getElementById('dash-timeline').innerHTML = (plan.timeline || []).map(t => `<div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px;"><span style="color:var(--text2);">${t.label}</span><span style="font-weight:600; color:var(--accent);">${t.time}</span></div>`).join('');
   const today = new Date().toISOString().split('T')[0];
   if(!habitLogs[today]) habitLogs[today] = {};
   document.getElementById('habit-list').innerHTML = (plan.habits || []).map(h => `<div class="habit-row"><div style="flex:1; font-size:14px;">${h}</div><div class="chk ${habitLogs[today][h] ? 'done' : ''}" onclick="toggleHabit('${h}')">${habitLogs[today][h] ? '✓' : ''}</div></div>`).join('');
@@ -233,7 +199,6 @@ function toggleHabit(h) {
   localStorage.setItem('lp_habit_logs', JSON.stringify(habitLogs));
   init();
 }
-
 init();
 </script>
 </body>
