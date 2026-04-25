@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Longevity AI Tracker</title>
+<title>Longevity AI Tracker (Gemini)</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2D6A4F">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -76,7 +76,7 @@ nav::-webkit-scrollbar { display: none; }
 <div id="onboarding-overlay" style="display: none;">
   <div class="setup-card">
     <h1 style="font-family: var(--serif); font-size: 28px;">Longevity AI</h1>
-    <p style="font-size: 14px; color: var(--text3); margin-bottom: 1.5rem;">Create your personalized longevity blueprint.</p>
+    <p style="font-size: 14px; color: var(--text3); margin-bottom: 1.5rem;">Create your personalized longevity blueprint using Gemini AI (Free).</p>
     <div class="form-group"><input type="number" id="setup-age" class="body-input" placeholder="Age (e.g. 43)"></div>
     <div class="form-group">
         <select id="setup-diet" class="body-input">
@@ -86,9 +86,9 @@ nav::-webkit-scrollbar { display: none; }
         </select>
     </div>
     <div class="form-group"><input type="number" id="setup-weight" class="body-input" placeholder="Weight (kg)"></div>
-    <button class="btn btn-primary" id="btn-gen" onclick="generateAIPlan()">Generate Plan</button>
-    <div id="ai-loading">✨ AI is building your plan... (approx 20s)</div>
-    <p style="font-size: 11px; text-align: center; margin-top: 15px; color: var(--text3);">Requires OpenAI Key in Settings</p>
+    <button class="btn btn-primary" id="btn-gen" onclick="generateAIPlan()">Generate Plan (Free)</button>
+    <div id="ai-loading">✨ Gemini is building your plan... (approx 15s)</div>
+    <p style="font-size: 11px; text-align: center; margin-top: 15px; color: var(--text3);">Requires Gemini API Key in Settings</p>
   </div>
 </div>
 
@@ -106,7 +106,7 @@ nav::-webkit-scrollbar { display: none; }
   <div class="page-sub" id="user-info"></div>
   <div class="grid-4" id="dash-metrics"></div>
   <div class="card">
-    <div class="card-title">Daily Focus</div>
+    <div class="card-title">Weekly Goals</div>
     <div id="daily-focus"></div>
   </div>
 </div>
@@ -129,15 +129,16 @@ nav::-webkit-scrollbar { display: none; }
 <div class="page" id="page-settings">
   <div class="page-title">Settings</div>
   <div class="card">
-    <div class="card-title">AI Engine</div>
+    <div class="card-title">Gemini AI Engine</div>
     <div class="form-group">
-      <label class="input-label">OpenAI API Key</label>
-      <input type="password" id="api-key" class="body-input" placeholder="sk-...">
+      <label class="input-label">Gemini API Key (Free Tier)</label>
+      <input type="password" id="api-key" class="body-input" placeholder="Paste your key from AI Studio...">
+      <p style="font-size: 11px; margin-top: 5px; color: var(--text3);">Get one for free at aistudio.google.com</p>
     </div>
-    <button class="btn btn-primary" onclick="saveSettings()">Save Configuration</button>
+    <button class="btn btn-primary" onclick="saveSettings()">Save Gemini Key</button>
   </div>
   <div class="card" style="border-color: var(--red);">
-    <div class="card-title" style="color:var(--red)">Reset</div>
+    <div class="card-title" style="color:var(--red)">System</div>
     <button class="btn" style="color:var(--red); border-color:var(--red); width: 100%;" onclick="resetApp()">Wipe All Data</button>
   </div>
 </div>
@@ -153,22 +154,22 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
-  if(event) event.target.classList.add('active');
+  if(window.event && window.event.target) window.event.target.classList.add('active');
 }
 
 function saveSettings() {
   settings.apiKey = document.getElementById('api-key').value;
   localStorage.setItem('lp_settings', JSON.stringify(settings));
-  alert('Settings updated!');
+  alert('Gemini Key saved!');
 }
 
 function resetApp() {
-  if(confirm('Delete everything?')) { localStorage.clear(); location.reload(); }
+  if(confirm('Delete all data and start over?')) { localStorage.clear(); location.reload(); }
 }
 
-// --- AI LOGIC ---
+// --- AI LOGIC (GEMINI) ---
 async function generateAIPlan() {
-  if(!settings.apiKey) { alert('Enter API key in Settings tab first!'); showPage('settings'); document.getElementById('onboarding-overlay').style.display='none'; return; }
+  if(!settings.apiKey) { alert('Enter your Gemini API key in Settings first!'); showPage('settings'); document.getElementById('onboarding-overlay').style.display='none'; return; }
 
   const btn = document.getElementById('btn-gen');
   const loader = document.getElementById('ai-loading');
@@ -180,31 +181,38 @@ async function generateAIPlan() {
     weight: document.getElementById('setup-weight').value
   };
 
-  const systemPrompt = `You are a longevity expert. Create a health plan in JSON format.
-  JSON structure: {
-    "user": {"age":0, "weight":0, "diet":""},
-    "metrics": [{"label":"", "value":"", "unit":""}],
+  const systemPrompt = `You are a longevity expert. Create a health plan for a ${userInputs.age} year old on a ${userInputs.diet} diet weighing ${userInputs.weight}kg.
+  Return ONLY a valid JSON object with this exact structure:
+  {
+    "user": {"age":${userInputs.age}, "weight":${userInputs.weight}, "diet":"${userInputs.diet}"},
+    "metrics": [{"label":"Goal Weight", "value":"62", "unit":"kg"}],
     "habits": ["Drink 3L water", "10k steps"],
-    "training": [{"day":"Monday", "activity":"", "exercises":[]}],
-    "nutrition": [{"time":"Breakfast", "meal":""}]
+    "training": [{"day":"Monday", "activity":"Strength", "exercises":["Pushups 3x10"]}],
+    "nutrition": [{"time":"Breakfast", "meal":"Oats"}]
   }`;
 
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${settings.apiKey}`;
+
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch(url, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.apiKey}`},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [{role:'system', content:systemPrompt}, {role:'user', content: JSON.stringify(userInputs)}]
+        contents: [{ parts: [{ text: systemPrompt }] }]
       })
     });
+
     const data = await res.json();
-    const cleanJson = data.choices[0].message.content.replace(/```json|```/g, '');
+    const aiResponseText = data.candidates[0].content.parts[0].text;
+
+    // Clean JSON from Markdown blocks
+    const cleanJson = aiResponseText.replace(/```json|```/g, '').trim();
     plan = JSON.parse(cleanJson);
+
     localStorage.setItem('lp_plan', JSON.stringify(plan));
     location.reload();
   } catch (e) {
-    alert('AI Error: ' + e.message);
+    alert('Gemini API Error: ' + e.message + '. Ensure your key is valid and you have internet.');
     btn.disabled = false; loader.style.display = 'none';
   }
 }
@@ -263,6 +271,12 @@ function toggleHabit(h) {
 }
 
 init();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW Fail'));
+  });
+}
 </script>
 </body>
 </html>
