@@ -3,408 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Longevity Tracker & AI Coach</title>
+<title>Longevity AI Tracker</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2D6A4F">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F7F5F0;
-  --surface: #FFFFFF;
-  --surface2: #F0EDE6;
-  --border: rgba(0,0,0,0.08);
-  --border2: rgba(0,0,0,0.14);
-  --text: #1A1814;
-  --text2: #5C5750;
-  --text3: #9C9790;
-  --accent: #2D6A4F;
-  --accent2: #40916C;
-  --amber: #B5621B;
-  --blue: #1B4F8A;
-  --red: #9B2335;
-  --purple: #4A3F8A;
-  --teal: #1A6B6B;
-  --serif: 'DM Serif Display', Georgia, serif;
-  --sans: 'DM Sans', system-ui, sans-serif;
-  --radius: 12px;
-  --radius-sm: 8px;
+  --bg: #F7F5F0; --surface: #FFFFFF; --surface2: #F0EDE6;
+  --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.14);
+  --text: #1A1814; --text2: #5C5750; --text3: #9C9790;
+  --accent: #2D6A4F; --accent2: #40916C; --amber: #B5621B;
+  --blue: #1B4F8A; --red: #9B2335; --purple: #4A3F8A; --teal: #1A6B6B;
+  --serif: 'DM Serif Display', Georgia, serif; --sans: 'DM Sans', system-ui, sans-serif;
+  --radius: 12px; --radius-sm: 8px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.6;
-  min-height: 100vh;
-}
+body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; min-height: 100vh; }
 
-/* NAV */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 0;
-  padding: 0 1.5rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
+/* NAVIGATION */
+nav { position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 1rem; overflow-x: auto; scrollbar-width: none; }
 nav::-webkit-scrollbar { display: none; }
-.nav-brand {
-  font-family: var(--serif);
-  font-size: 17px;
-  color: var(--accent);
-  white-space: nowrap;
-  padding-right: 1.5rem;
-  border-right: 1px solid var(--border);
-  margin-right: 0.5rem;
-  flex-shrink: 0;
-  padding-top: 14px;
-  padding-bottom: 14px;
-}
-.nav-link {
-  padding: 16px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text2);
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-  flex-shrink: 0;
-  text-decoration: none;
-  display: block;
-}
-.nav-link:hover { color: var(--text); }
+.nav-brand { font-family: var(--serif); font-size: 17px; color: var(--accent); padding: 14px 1rem 14px 0; border-right: 1px solid var(--border); margin-right: 0.5rem; flex-shrink: 0; }
+.nav-link { padding: 16px 12px; font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; text-decoration: none; }
 .nav-link.active { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* LAYOUT */
-.page { display: none; padding: 2rem 1.5rem; max-width: 960px; margin: 0 auto; }
+.page { display: none; padding: 1.5rem 1rem; max-width: 960px; margin: 0 auto; }
 .page.active { display: block; }
 
 /* ONBOARDING */
-#onboarding-overlay {
-  position: fixed; inset: 0; background: var(--bg); z-index: 1000;
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-}
-.setup-card {
-  background: var(--surface);
-  padding: 2.5rem;
-  border-radius: var(--radius);
-  max-width: 500px; width: 100%;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-}
+#onboarding-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.setup-card { background: var(--surface); padding: 2rem; border-radius: var(--radius); max-width: 500px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
-/* TYPOGRAPHY */
-.page-title { font-family: var(--serif); font-size: 32px; line-height: 1.2; color: var(--text); margin-bottom: 0.25rem; }
-.page-sub { font-size: 14px; color: var(--text3); margin-bottom: 2rem; }
-h2 { font-family: var(--serif); font-size: 22px; margin-bottom: 1rem; color: var(--text); }
-h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 0.75rem; letter-spacing: 0.01em; }
-
-/* CARDS */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1rem;
-}
+/* CARDS & TYPOGRAPHY */
+.page-title { font-family: var(--serif); font-size: 28px; line-height: 1.2; margin-bottom: 0.25rem; }
+.page-sub { font-size: 14px; color: var(--text3); margin-bottom: 1.5rem; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
 .card-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
 
-/* METRICS GRID */
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1rem; }
-.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+/* GRID & METRICS */
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
 .metric-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; }
-.metric-value { font-size: 24px; font-weight: 300; color: var(--text); }
-.metric-unit { font-size: 13px; color: var(--text2); }
+.metric-value { font-size: 22px; font-weight: 300; }
+.metric-unit { font-size: 12px; color: var(--text2); }
 
-/* INPUTS */
-.form-group { margin-bottom: 1.5rem; }
+/* FORMS */
+.form-group { margin-bottom: 1.25rem; }
 .input-label { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; display: block; }
-.body-input, select {
-  width: 100%; padding: 10px 14px;
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-sm);
-  font-size: 15px; font-family: var(--sans);
-  background: var(--bg);
-}
-
-/* BUTTONS */
-.btn {
-  padding: 12px 24px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border2);
-  font-size: 14px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s;
-  font-family: var(--sans);
-}
+.body-input { width: 100%; padding: 10px 14px; border: 1px solid var(--border2); border-radius: var(--radius-sm); font-size: 15px; background: var(--bg); }
+.btn { padding: 12px 24px; border-radius: var(--radius-sm); border: 1px solid var(--border2); font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: 0.2s; }
 .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); width: 100%; }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary:disabled { opacity: 0.5; }
 
-/* MACRO BAR */
-.macro-bar { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin: 8px 0; }
-.macro-seg { height: 100%; }
+/* TRACKER */
+.habit-row { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.chk { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border2); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chk.done { background: var(--accent); border-color: var(--accent); }
 
-/* LOADING */
-#ai-loading { display: none; text-align: center; margin-top: 1rem; font-size: 13px; color: var(--text3); }
+/* MEALS & EXERCISES */
+.item-block { border-left: 3px solid var(--accent); padding: 10px 15px; background: var(--surface); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 10px; border: 1px solid var(--border); border-left-width: 3px; }
+.item-time { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 4px; }
+.item-name { font-size: 15px; font-weight: 500; }
 
-/* BADGES */
-.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
-.badge-green { background: #E8F5EE; color: #1A5C36; }
-
-@media (max-width: 600px) {
-  .page { padding: 1.25rem 1rem; }
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-}
+/* UTILS */
+#ai-loading { display: none; text-align: center; margin-top: 1rem; color: var(--text3); font-size: 13px; }
+@media (max-width: 600px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════ ONBOARDING -->
 <div id="onboarding-overlay" style="display: none;">
   <div class="setup-card">
-    <h1 style="font-family: var(--serif); font-size: 28px; margin-bottom: 0.5rem;">Welcome to Longevity</h1>
-    <p style="font-size: 14px; color: var(--text3); margin-bottom: 2rem;">Let's generate your personalized science-based longevity plan.</p>
-
+    <h1 style="font-family: var(--serif); font-size: 28px;">Longevity AI</h1>
+    <p style="font-size: 14px; color: var(--text3); margin-bottom: 1.5rem;">Create your personalized longevity blueprint.</p>
+    <div class="form-group"><input type="number" id="setup-age" class="body-input" placeholder="Age (e.g. 43)"></div>
     <div class="form-group">
-      <label class="input-label">Age, Gender & Location</label>
-      <div style="display: flex; gap: 10px;">
-        <input type="number" id="setup-age" class="body-input" placeholder="Age">
-        <select id="setup-gender" class="body-input">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
+        <select id="setup-diet" class="body-input">
+            <option value="Indian Vegetarian">Indian Vegetarian</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Non-Vegetarian">Non-Vegetarian</option>
         </select>
-      </div>
     </div>
-
-    <div class="form-group">
-      <label class="input-label">Current Weight (kg) & Height (cm)</label>
-      <div style="display: flex; gap: 10px;">
-        <input type="number" id="setup-weight" class="body-input" placeholder="65">
-        <input type="number" id="setup-height" class="body-input" placeholder="170">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="input-label">Waist Circumference (cm)</label>
-      <input type="number" id="setup-waist" class="body-input" placeholder="90">
-    </div>
-
-    <div class="form-group">
-      <label class="input-label">Dietary Preference</label>
-      <select id="setup-diet" class="body-input">
-        <option value="vegetarian">Indian Vegetarian (No Eggs)</option>
-        <option value="eggetarian">Indian Vegetarian (With Eggs)</option>
-        <option value="vegan">Vegan</option>
-        <option value="non-veg">Non-Vegetarian</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label class="input-label">Equipment Access</label>
-      <select id="setup-equip" class="body-input">
-        <option value="home">Home (Bodyweight only)</option>
-        <option value="minimal">Minimal (Bands/Dumbbells)</option>
-        <option value="gym">Full Gym Access</option>
-      </select>
-    </div>
-
-    <button class="btn btn-primary" id="btn-generate" onclick="generateAIPlan()">Generate My Plan with AI</button>
-    <div id="ai-loading">✨ AI is crafting your longevity blueprint... this takes ~20 seconds.</div>
-
-    <p style="font-size: 11px; color: var(--text3); margin-top: 1.5rem; text-align: center;">
-      Note: You'll need to add your OpenAI API Key in Settings to use the AI generator.
-    </p>
+    <div class="form-group"><input type="number" id="setup-weight" class="body-input" placeholder="Weight (kg)"></div>
+    <button class="btn btn-primary" id="btn-gen" onclick="generateAIPlan()">Generate Plan</button>
+    <div id="ai-loading">✨ AI is building your plan... (approx 20s)</div>
+    <p style="font-size: 11px; text-align: center; margin-top: 15px; color: var(--text3);">Requires OpenAI Key in Settings</p>
   </div>
 </div>
 
-<nav>
+<nav id="main-nav">
   <div class="nav-brand">Longevity</div>
-  <a class="nav-link active" onclick="showPage('dashboard')">Dashboard</a>
-  <a class="nav-link" onclick="showPage('training')">Training</a>
-  <a class="nav-link" onclick="showPage('nutrition')">Nutrition</a>
-  <a class="nav-link" onclick="showPage('tracker')">Daily tracker</a>
-  <a class="nav-link" onclick="showPage('settings')">Settings</a>
+  <a class="nav-link active" onclick="showPage('dashboard')">Dash</a>
+  <a class="nav-link" onclick="showPage('training')">Train</a>
+  <a class="nav-link" onclick="showPage('nutrition')">Eat</a>
+  <a class="nav-link" onclick="showPage('tracker')">Habits</a>
+  <a class="nav-link" onclick="showPage('settings')">Set</a>
 </nav>
 
-<!-- ═══════════════════════════════════════════════════ DASHBOARD -->
 <div class="page active" id="page-dashboard">
-  <div class="page-title">Your longevity blueprint</div>
-  <div class="page-sub" id="user-subhead">Loading your details...</div>
-
-  <div class="grid-4" id="dashboard-metrics">
-    <!-- Metrics will be injected here -->
-  </div>
-
+  <div class="page-title">Blueprint</div>
+  <div class="page-sub" id="user-info"></div>
+  <div class="grid-4" id="dash-metrics"></div>
   <div class="card">
-    <div class="card-title">Timeline to goal</div>
-    <div id="dashboard-timeline"></div>
+    <div class="card-title">Daily Focus</div>
+    <div id="daily-focus"></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════ TRAINING -->
 <div class="page" id="page-training">
-  <div class="page-title">Training plan</div>
+  <div class="page-title">Training</div>
   <div id="training-content"></div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════ NUTRITION -->
 <div class="page" id="page-nutrition">
-  <div class="page-title">Nutrition plan</div>
+  <div class="page-title">Nutrition</div>
   <div id="nutrition-content"></div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════ SETTINGS -->
-<div class="page" id="page-settings">
-  <div class="page-title">App Settings</div>
+<div class="page" id="page-tracker">
+  <div class="page-title">Daily Habits</div>
+  <div class="card" id="habit-list"></div>
+</div>
 
+<div class="page" id="page-settings">
+  <div class="page-title">Settings</div>
   <div class="card">
-    <div class="card-title">AI Engine Configuration</div>
+    <div class="card-title">AI Engine</div>
     <div class="form-group">
       <label class="input-label">OpenAI API Key</label>
       <input type="password" id="api-key" class="body-input" placeholder="sk-...">
-      <p style="font-size: 12px; color: var(--text3); margin-top: 8px;">Your key is stored only on this device and never uploaded to our servers.</p>
     </div>
-    <button class="btn" onclick="saveSettings()">Save Settings</button>
+    <button class="btn btn-primary" onclick="saveSettings()">Save Configuration</button>
   </div>
-
   <div class="card" style="border-color: var(--red);">
-    <div class="card-title" style="color: var(--red);">Danger Zone</div>
-    <p style="font-size: 13px; color: var(--text2); margin-bottom: 1rem;">Resetting will delete your generated plan and tracking history.</p>
-    <button class="btn" style="color: var(--red); border-color: var(--red);" onclick="resetApp()">Reset Everything</button>
+    <div class="card-title" style="color:var(--red)">Reset</div>
+    <button class="btn" style="color:var(--red); border-color:var(--red); width: 100%;" onclick="resetApp()">Wipe All Data</button>
   </div>
 </div>
 
 <script>
+// --- DATA MODELS ---
 let plan = JSON.parse(localStorage.getItem('lp_plan'));
 let settings = JSON.parse(localStorage.getItem('lp_settings') || '{"apiKey":""}');
+let habitLogs = JSON.parse(localStorage.getItem('lp_habit_logs') || '{}');
 
-function saveSettings() {
-  settings.apiKey = document.getElementById('api-key').value;
-  localStorage.setItem('lp_settings', JSON.stringify(settings));
-  alert('Settings saved!');
-}
-
-function resetApp() {
-  if(confirm('Are you sure? All data will be lost.')) {
-    localStorage.clear();
-    location.reload();
-  }
-}
-
-// ── NAVIGATION ──────────────────────────────────────────────────────
+// --- NAVIGATION ---
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
-  event.target.classList.add('active');
+  if(event) event.target.classList.add('active');
 }
 
-// ── UI RENDERING ────────────────────────────────────────────────────
-function initUI() {
-  if (!plan) {
+function saveSettings() {
+  settings.apiKey = document.getElementById('api-key').value;
+  localStorage.setItem('lp_settings', JSON.stringify(settings));
+  alert('Settings updated!');
+}
+
+function resetApp() {
+  if(confirm('Delete everything?')) { localStorage.clear(); location.reload(); }
+}
+
+// --- AI LOGIC ---
+async function generateAIPlan() {
+  if(!settings.apiKey) { alert('Enter API key in Settings tab first!'); showPage('settings'); document.getElementById('onboarding-overlay').style.display='none'; return; }
+
+  const btn = document.getElementById('btn-gen');
+  const loader = document.getElementById('ai-loading');
+  btn.disabled = true; loader.style.display = 'block';
+
+  const userInputs = {
+    age: document.getElementById('setup-age').value,
+    diet: document.getElementById('setup-diet').value,
+    weight: document.getElementById('setup-weight').value
+  };
+
+  const systemPrompt = `You are a longevity expert. Create a health plan in JSON format.
+  JSON structure: {
+    "user": {"age":0, "weight":0, "diet":""},
+    "metrics": [{"label":"", "value":"", "unit":""}],
+    "habits": ["Drink 3L water", "10k steps"],
+    "training": [{"day":"Monday", "activity":"", "exercises":[]}],
+    "nutrition": [{"time":"Breakfast", "meal":""}]
+  }`;
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.apiKey}`},
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [{role:'system', content:systemPrompt}, {role:'user', content: JSON.stringify(userInputs)}]
+      })
+    });
+    const data = await res.json();
+    const cleanJson = data.choices[0].message.content.replace(/```json|```/g, '');
+    plan = JSON.parse(cleanJson);
+    localStorage.setItem('lp_plan', JSON.stringify(plan));
+    location.reload();
+  } catch (e) {
+    alert('AI Error: ' + e.message);
+    btn.disabled = false; loader.style.display = 'none';
+  }
+}
+
+// --- UI INIT ---
+function init() {
+  if(!plan) {
     document.getElementById('onboarding-overlay').style.display = 'flex';
     document.getElementById('api-key').value = settings.apiKey;
     return;
   }
 
-  // Header
-  document.getElementById('user-subhead').textContent =
-    `${plan.user.age}y · ${plan.user.gender} · ${plan.user.weight}kg · ${plan.user.height}cm · ${plan.user.diet}`;
-
-  // Metrics
-  const metrics = [
-    {l:'Current weight', v:plan.user.weight, u:'kg'},
-    {l:'Target weight', v:plan.targets.weight, u:'kg'},
-    {l:'Daily Calories', v:plan.nutrition.calories, u:'kcal'},
-    {l:'Protein Target', v:plan.nutrition.protein, u:'g'}
-  ];
-  document.getElementById('dashboard-metrics').innerHTML = metrics.map(m => `
+  // Dash
+  document.getElementById('user-info').textContent = `${plan.user.age}y · ${plan.user.diet} · ${plan.user.weight}kg`;
+  document.getElementById('dash-metrics').innerHTML = plan.metrics.map(m => `
     <div class="metric-card">
-      <div class="metric-label">${m.l}</div>
-      <div class="metric-value">${m.v} <span class="metric-unit">${m.u}</span></div>
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-value">${m.value} <span class="metric-unit">${m.unit}</span></div>
     </div>`).join('');
 
-  // Timeline
-  document.getElementById('dashboard-timeline').innerHTML = plan.targets.milestones.map(ms => `
-    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px;">
-      <span>${ms.label}</span>
-      <span style="font-weight:600; color:var(--accent);">${ms.time}</span>
+  // Habits
+  const today = new Date().toISOString().split('T')[0];
+  if(!habitLogs[today]) habitLogs[today] = {};
+
+  document.getElementById('habit-list').innerHTML = plan.habits.map(h => `
+    <div class="habit-row">
+      <div style="flex:1">${h}</div>
+      <div class="chk ${habitLogs[today][h] ? 'done' : ''}" onclick="toggleHabit('${h}')">
+        ${habitLogs[today][h] ? '✓' : ''}
+      </div>
+    </div>`).join('');
+
+  // Training
+  document.getElementById('training-content').innerHTML = plan.training.map(t => `
+    <div class="card">
+        <div class="card-title">${t.day}</div>
+        <div style="font-weight:600; color:var(--accent);">${t.activity}</div>
+        <ul style="margin-top:10px; font-size:13px; color:var(--text2); padding-left:15px;">
+            ${t.exercises.map(ex => `<li>${ex}</li>`).join('')}
+        </ul>
+    </div>`).join('');
+
+  // Nutrition
+  document.getElementById('nutrition-content').innerHTML = plan.nutrition.map(n => `
+    <div class="item-block">
+        <div class="item-time">${n.time}</div>
+        <div class="item-name">${n.meal}</div>
     </div>`).join('');
 }
 
-// ── AI GENERATION ───────────────────────────────────────────────────
-async function generateAIPlan() {
-  if (!settings.apiKey) {
-    alert('Please add your OpenAI API Key in the Settings tab first!');
-    showPage('settings');
-    document.getElementById('onboarding-overlay').style.display = 'none';
-    return;
-  }
-
-  const userData = {
-    age: document.getElementById('setup-age').value,
-    gender: document.getElementById('setup-gender').value,
-    weight: document.getElementById('setup-weight').value,
-    height: document.getElementById('setup-height').value,
-    waist: document.getElementById('setup-waist').value,
-    diet: document.getElementById('setup-diet').value,
-    equip: document.getElementById('setup-equip').value
-  };
-
-  document.getElementById('btn-generate').disabled = true;
-  document.getElementById('ai-loading').style.display = 'block';
-
-  const systemPrompt = `You are a longevity and fitness AI. Create a detailed science-based plan in JSON format.
-  The response must be PURE JSON and include:
-  user (age, gender, weight, height, diet),
-  targets (weight, bodyfat, milestones array),
-  nutrition (calories, protein, carbs, fat, samples array),
-  training (schedule object with Mon-Sun)`;
-
-  try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${settings.apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: `Generate plan for: ${JSON.stringify(userData)}` }
-        ],
-        temperature: 0.7
-      })
-    });
-
-    const data = await response.json();
-    const aiText = data.choices[0].message.content;
-
-    // Clean JSON if AI added markdown code blocks
-    const cleanJson = aiText.replace(/```json|```/g, '');
-    plan = JSON.parse(cleanJson);
-
-    localStorage.setItem('lp_plan', JSON.stringify(plan));
-    location.reload();
-  } catch (err) {
-    alert('Error generating plan: ' + err.message);
-    document.getElementById('btn-generate').disabled = false;
-    document.getElementById('ai-loading').style.display = 'none';
-  }
+function toggleHabit(h) {
+  const today = new Date().toISOString().split('T')[0];
+  habitLogs[today][h] = !habitLogs[today][h];
+  localStorage.setItem('lp_habit_logs', JSON.stringify(habitLogs));
+  init();
 }
 
-initUI();
-
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW fail', err));
-  });
-}
+init();
 </script>
 </body>
 </html>
