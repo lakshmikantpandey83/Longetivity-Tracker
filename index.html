@@ -78,19 +78,19 @@ nav::-webkit-scrollbar { display: none; }
   <div class="setup-card">
     <h1 style="font-family: var(--serif); font-size: 26px;">Create Your Plan</h1>
     <p style="font-size: 13px; color: var(--text3); margin-bottom: 1.2rem;">Generate a personalized blueprint with Gemini AI.</p>
-
+    
     <div style="display: flex; gap: 8px;">
         <div class="form-group" style="flex:1"><label class="input-label">Age</label><input type="number" id="setup-age" class="body-input" placeholder="43"></div>
         <div class="form-group" style="flex:1"><label class="input-label">Gender</label><select id="setup-gender" class="body-input"><option value="Male">Male</option><option value="Female">Female</option></select></div>
     </div>
-
+    
     <div style="display: flex; gap: 8px;">
         <div class="form-group" style="flex:1"><label class="input-label">Weight (kg)</label><input type="number" id="setup-weight" class="body-input" placeholder="65"></div>
         <div class="form-group" style="flex:1"><label class="input-label">Height (cm)</label><input type="number" id="setup-height" class="body-input" placeholder="170"></div>
     </div>
-
+    
     <div class="form-group"><label class="input-label">Waist (cm)</label><input type="number" id="setup-waist" class="body-input" placeholder="92"></div>
-
+    
     <div class="form-group">
         <label class="input-label">Dietary Preference</label>
         <select id="setup-diet" class="body-input">
@@ -129,7 +129,7 @@ nav::-webkit-scrollbar { display: none; }
   <div class="page-title">Blueprint</div>
   <div class="page-sub" id="user-info"></div>
   <div class="grid-4" id="dash-metrics"></div>
-
+  
   <div class="card">
     <div class="card-title">Daily Schedule</div>
     <div id="daily-schedule"></div>
@@ -185,7 +185,7 @@ function showPage(id) {
 }
 
 function saveSettings() {
-  settings.apiKey = document.getElementById('api-key').value;
+  settings.apiKey = document.getElementById('api-key').value.trim();
   localStorage.setItem('lp_settings', JSON.stringify(settings));
   alert('Gemini settings updated!');
 }
@@ -195,8 +195,13 @@ function resetApp() {
 }
 
 async function generateAIPlan() {
-  if(!settings.apiKey) { alert('Go to Settings tab and add Gemini API key first!'); showPage('settings'); document.getElementById('onboarding-overlay').style.display='none'; return; }
-
+  if(!settings.apiKey) { 
+    alert('Go to Settings tab and add Gemini API key first!'); 
+    showPage('settings'); 
+    document.getElementById('onboarding-overlay').style.display='none'; 
+    return; 
+  }
+  
   const btn = document.getElementById('btn-gen');
   const loader = document.getElementById('ai-loading');
   btn.disabled = true; loader.style.display = 'block';
@@ -211,18 +216,17 @@ async function generateAIPlan() {
     equip: document.getElementById('setup-equip').value
   };
 
-  const systemPrompt = `You are an expert longevity coach. Based on the user inputs: ${JSON.stringify(inputs)}, generate a high-quality science-based health plan.
-  The output MUST be a VALID JSON object with this exact structure:
+  const systemPrompt = `You are an expert longevity coach. Based on these inputs: ${JSON.stringify(inputs)}, generate a health plan.
+  Return ONLY a VALID JSON object (no markdown, no preamble) with this structure:
   {
     "user_summary": "43y · Male · 65kg · Indian Vegetarian",
-    "metrics": [{"label":"Body Fat %", "value":"22", "unit":"%"}, {"label":"Calories", "value":"1800", "unit":"kcal"}, {"label":"Protein", "value":"125", "unit":"g"}],
-    "schedule": [{"time":"5:30 AM", "activity":"Wake up + water"}, {"time":"6:00 AM", "activity":"Yoga"}],
-    "timeline": [{"label":"Waist ≤ 90cm", "time":"12 weeks"}],
-    "training": [{"day":"Mon", "focus":"Push", "exercises":["Pushups 3x12"]}],
+    "metrics": [{"label":"Goal Weight", "value":"62", "unit":"kg"}, {"label":"Daily Calories", "value":"1800", "unit":"kcal"}],
+    "schedule": [{"time":"5:30 AM", "activity":"Wake up"}],
+    "timeline": [{"label":"Initial Progress", "time":"4 weeks"}],
+    "training": [{"day":"Mon", "focus":"Strength", "exercises":["Pushups 3x10"]}],
     "nutrition": [{"time":"Breakfast", "meal":"Oats", "detail":"30g protein"}],
     "habits": ["Drink 3L water", "10k steps"]
-  }
-  IMPORTANT: Return ONLY the JSON object. No other text.`;
+  }`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${settings.apiKey}`;
 
@@ -232,10 +236,27 @@ async function generateAIPlan() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ contents: [{ parts: [{ text: systemPrompt }] }] })
     });
-
+    
     const data = await res.json();
+    
+    // Check for API-level errors
+    if (data.error) {
+        throw new Error(data.error.message || "API Error");
+    }
+
+    if (!data.candidates || data.candidates.length === 0) {
+        throw new Error("AI returned no results. Check your API key or region.");
+    }
+
     const aiText = data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim();
-    plan = JSON.parse(aiText);
+    
+    try {
+        plan = JSON.parse(aiText);
+    } catch (parseError) {
+        console.error("AI returned invalid JSON:", aiText);
+        throw new Error("AI output format error. Please try again.");
+    }
+
     localStorage.setItem('lp_plan', JSON.stringify(plan));
     location.reload();
   } catch (e) {
@@ -258,7 +279,7 @@ function init() {
       <div class="metric-label">${m.label}</div>
       <div class="metric-value">${m.value} <span class="metric-unit">${m.unit}</span></div>
     </div>`).join('');
-
+  
   document.getElementById('daily-schedule').innerHTML = plan.schedule.map(s => `
     <div style="display:flex; font-size:13px; margin-bottom:6px;">
         <span style="font-weight:600; min-width:70px; color:var(--text3);">${s.time}</span>
